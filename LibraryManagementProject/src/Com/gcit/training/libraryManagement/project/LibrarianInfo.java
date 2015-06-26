@@ -5,6 +5,7 @@ package Com.gcit.training.libraryManagement.project;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,7 +13,7 @@ import java.util.Scanner;
 
 public class LibrarianInfo {
 	//data fields
-	private static final int userChoice = 0;
+	private static int userChoice;
 	//constructor
 	public LibrarianInfo(){
 		try {
@@ -20,9 +21,11 @@ public class LibrarianInfo {
 			System.out.println("Here are the available Library Branches");
 			System.out.println("---------------------------------------");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/library", "root", "");
-			Statement stmt = conn.createStatement();
+			//Statement stmt = conn.createStatement();
 			String selectQuery = "select * from tbl_library_branch";
-			ResultSet rs = stmt.executeQuery(selectQuery);
+			
+			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			ResultSet rs = pstmt.executeQuery();
 			
 			//loop
 			while(rs.next()){
