@@ -2,21 +2,28 @@ package Com.gcit.training.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
+
 
 public class Demo {
 
 	public static void main(String[] args) {
 		
 		try {
-			//building the connection
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/library", "root", "");
 			Statement stmt = conn.createStatement();
-			String selectQuery = "select * from tbl_author";
-			ResultSet rs = stmt.executeQuery(selectQuery);
+			String selectQuery = "select * from tbl_author where authorName= ?";
+			
+			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			pstmt.setString(1, "Author");
+			
+			
+			ResultSet rs = pstmt.executeQuery(); 
+					//stmt.executeQuery(selectQuery);
 			
 			while(rs.next()){
 				System.out.println("Author ID: " +rs.getInt("authorId"));
@@ -39,6 +46,5 @@ public class Demo {
 		}
 		
 	}
+
 }
-
-
