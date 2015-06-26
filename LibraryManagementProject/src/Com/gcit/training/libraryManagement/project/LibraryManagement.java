@@ -16,13 +16,12 @@ public class LibraryManagement {
 	
 	public static void main(String[] args) {
 		firstPageReturn();
-		//invoking the user category method
-		userCategory();
+		
 }
+	static int userStatus;
 	//the first page to display
 	private static void firstPageReturn(){
 		String userString = " ";
-		int userStatus = 0;
 		
 		System.out.println("Welcome to the GCIT Library Management System");
 		System.out.println("---------------------------------------------\n1)." + 
@@ -41,6 +40,9 @@ public class LibraryManagement {
 				userStatus = in.nextInt();
 			}
 		}
+		
+			//invoking the user category method
+			userCategory();
 	}
 	
 	//the method to determine the user category
@@ -48,7 +50,6 @@ public class LibraryManagement {
 		
 		Scanner input = new Scanner(System.in);
 		String userString = " ";
-		int userStatus = 0;
 		
 		//if user is librarian
 		if(userStatus == 1){
