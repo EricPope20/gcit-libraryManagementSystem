@@ -13,7 +13,8 @@ import java.util.Scanner;
 
 public class LibrarianInfo {
 	// data fields
-	private String userString = "";
+	private static String userString = "";
+	private int userChoice;
 
 	// constructor
 	public LibrarianInfo() {
@@ -55,7 +56,21 @@ public class LibrarianInfo {
 								+ "\n2)Add copies of Book to the Branch\n"
 								+ "3)Quit to previous");
 				userString = scan.nextLine();
+				
+				// update the details of the library
+				if (userString == "1") {
+					scan.nextLine();
+					updateQuery();
+				}
+				// add add copies of book to the branch
+				else if (userString.equals(2)) {
 
+				}
+
+				// return to previous page
+				else if (userString.equals(3)) {
+
+				}
 				break;
 			case 2:
 
@@ -67,5 +82,31 @@ public class LibrarianInfo {
 			e.printStackTrace();
 		}
 
+	}
+
+	// method to update
+	private static void updateQuery() {
+		Scanner userScan = new Scanner(System.in);
+		Connection upConn;
+		try {
+			System.out.println("You have chosen to update the Branch "
+					+ "with Branch Id:1 and Branch Name:University Library");
+			
+			System.out.println("Please enter new branch name or enter N/A for no change");
+			userString = userScan.nextLine();
+			
+			//if the user enter a new name
+			
+			upConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/library", "root", "");
+			String updateQuery = "update tbl_library_branch branchName= ?";
+			PreparedStatement ups = upConn.prepareStatement(updateQuery);
+			ups.setString(1, userString);
+			int execute = ups.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

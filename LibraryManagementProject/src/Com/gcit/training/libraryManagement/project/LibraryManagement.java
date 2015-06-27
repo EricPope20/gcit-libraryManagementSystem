@@ -17,7 +17,7 @@ public class LibraryManagement {
 
 	public static void main(String[] args) {
 		firstPageReturn();
-
+		
 	}
 
 	static int userStatus;
@@ -60,6 +60,7 @@ public class LibraryManagement {
 			System.out.println("You choose a category of " + librarian
 					+ ", Librarian, do you want to continue? (y/n)");
 			userString = input.nextLine();
+			
 			// if the user decides to move on
 			while (userString.toLowerCase().equals("y")) {
 				LibrarianInfo myLB = new LibrarianInfo();
@@ -72,8 +73,8 @@ public class LibraryManagement {
 			if (!userString.toLowerCase().equals("y")
 					|| !userString.toLowerCase().equals("n")) {
 				System.out.println("Sorry you have entered invalid response");
-				firstPageReturn();
-			}
+				
+			} firstPageReturn();
 		}
 		// if the user is administrator
 		else if (userStatus == 2) {
