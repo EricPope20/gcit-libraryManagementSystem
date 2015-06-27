@@ -8,13 +8,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Scanner;
 
 public class LibrarianInfo {
 	// data fields
 	private static String userString = "";
-	private int userChoice;
 
 	// constructor
 	public LibrarianInfo() {
@@ -24,7 +22,7 @@ public class LibrarianInfo {
 			System.out.println("---------------------------------------");
 			Connection conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/library", "root", "");
-			// Statement stmt = conn.createStatement();
+			
 			String selectQuery = "select * from tbl_library_branch";
 
 			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
