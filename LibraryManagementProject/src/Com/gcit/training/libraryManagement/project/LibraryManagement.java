@@ -24,7 +24,7 @@ public class LibraryManagement {
 
 	// the first page to display
 	private static void firstPageReturn() {
-		String userString = " ";
+		String userString;
 
 		System.out.println("Welcome to the GCIT Library Management System");
 		System.out.println("---------------------------------------------\n1)."
