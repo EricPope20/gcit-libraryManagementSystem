@@ -16,7 +16,7 @@ public class BorrowerInfo {
 	private int cardNum;
 
 	private int choice;
-
+	private Book_Loans book;
 	private LibraryBranch libraryBranch;
 
 	protected BorrowerInfo() {
@@ -70,7 +70,7 @@ public class BorrowerInfo {
 
 		}
 
-		//get the unser input and update the library 
+		// get the unser input and update the library
 		choice = Integer.parseInt(in.nextLine());
 
 		updateLibrary(choice);
@@ -100,16 +100,21 @@ public class BorrowerInfo {
 				count++;
 			}
 			System.out.println(count + ") Quit to Cancel Operation");
-
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		choice = Integer.parseInt(in.nextLine());
+		System.out.println("You have checked out sucessfully");
+		// saving in the book the user choose to check out
+		bookUpdate(choice);
+		//checkOut();
 		// TODO check if the user doesn't enter number
 	}
 
+	// A method save the branch the user want to check out a book from
 	private void updateLibrary(int choice) {
 		Connection conn;
 		try {
@@ -143,6 +148,36 @@ public class BorrowerInfo {
 		}
 	}
 
+	// A method to save the book the user choose to check out
+	private void bookUpdate(int choice) {
+		try {
+			Connection conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/library", "root", "");
+			String selectQuery = "select * from tbl_book_loans";
+
+			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			ResultSet rs = pstmt.executeQuery();
+
+			int count = 1;
+
+			// loop
+			while (rs.next()) {
+				if (count == choice) {
+					int bookId = rs.getInt("bookId");
+					int branchId = rs.getInt("branchId");
+					int cardNo = rs.getInt("cardNo");
+					// String title = rs.getString("title");
+					// int pubId = rs.getInt("pubId");
+
+					book = new Book_Loans(bookId, branchId, cardNo);
+				}
+				count++;
+			}
+		} catch (SQLException e) {
+
+		}
+	}
+
 	private boolean isValid(int cardNo) {
 		Connection conn;
 		try {
@@ -166,24 +201,29 @@ public class BorrowerInfo {
 	}
 
 	// }
+
 	// method to check out book
 	protected void checkOut() {
 		Connection conn;
 		try {
 			conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/library", "root", "");
+			Statement stmt = conn.createStatement();
 
-			String insertQuery = "insert into tbl_book_loans values(?,?,?,?,?,?)";
+			String insertQuery = "insert into tbl_book_loans (bookId,branchId,cardNo,dateOut) values(?,?,?,?)";
 			PreparedStatement pstmt = conn.prepareStatement(insertQuery);
-			pstmt.setInt(1, choice);
+			pstmt.setInt(1, book.getBookId());
+			pstmt.setInt(2, book.getBranchId());
+			pstmt.setInt(3, book.getCardNo());
+			pstmt.setDate(4, new java.sql.Date(System.currentTimeMillis()));
+			// pstmt.setDate(5, new java.sql.Date(System.currentTimeMillis()));
 
-			ResultSet rs = pstmt.executeQuery();
+			stmt.executeUpdate(insertQuery);
 
-			while (rs.next()) {
-				System.out
-						.println("You check out the book with the card Number: "
-								+ choice);
-			}
+			/*
+			 * while (rs.next()) { System.out
+			 * .println("You check out the book "+ choice); }*
+			 */
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

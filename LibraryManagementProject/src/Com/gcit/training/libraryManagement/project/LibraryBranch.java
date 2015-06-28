@@ -3,7 +3,7 @@ package Com.gcit.training.libraryManagement.project;
 public class LibraryBranch {
 
 	private int branchId;
-	private String beranchName;
+	private String branchName;
 	private String branchAddress;
 
 	public LibraryBranch() {
@@ -13,7 +13,7 @@ public class LibraryBranch {
 	public LibraryBranch(int branchId, String branchName, String branchAddress) {
 		// super();
 		this.branchId = branchId;
-		this.beranchName = beranchName;
+		this.branchName = branchName;
 		this.branchAddress = branchAddress;
 	}
 
@@ -26,11 +26,11 @@ public class LibraryBranch {
 	}
 
 	public String getBeranchName() {
-		return beranchName;
+		return branchName;
 	}
 
 	public void setBeranchName(String beranchName) {
-		this.beranchName = beranchName;
+		this.branchName = beranchName;
 	}
 
 	public String getBranchAddress() {
