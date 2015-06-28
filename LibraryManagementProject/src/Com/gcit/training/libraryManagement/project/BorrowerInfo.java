@@ -120,7 +120,7 @@ public class BorrowerInfo {
 		try {
 			conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/library", "root", "");
-
+			
 			String selectQuery = "select * from tbl_library_branch";
 
 			PreparedStatement pstmt = conn.prepareStatement(selectQuery);

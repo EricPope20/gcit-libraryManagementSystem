@@ -84,6 +84,7 @@ public class LibraryManagement {
 			// if the user decides to move on
 			while (userString.toLowerCase().equals("y")) {
 				AdministratorInfo myAD = new AdministratorInfo();
+				//myAD.
 				break;
 
 			} // if the input is no
