@@ -69,7 +69,8 @@ public class LibrarianInfo {
 
 		lib3Menu();
 	}
-
+	
+	//third menu for librarian
 	private void lib3Menu() {
 		System.out.println("1)Update the details of the Library"
 				+ "\n2)Add copies of Book to the Branch\n"
