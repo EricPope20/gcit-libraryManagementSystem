@@ -13,52 +13,58 @@ import java.util.Scanner;
 public class LibrarianInfo {
 	// data fields
 	private static String userString = "";
-
-	Scanner scan = new Scanner(System.in);
-
 	private ResultSet rs;
-
 	private LibraryBranch library;
 	private Book book;
-
+	Connection conn;
+	Scanner scan = new Scanner(System.in);
+	
 	// constructor
 	public LibrarianInfo() {
-
+		
+		//creating of one time connection for the class
+		try {
+			conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/library", "root", "");
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-
+	
+	//the first menu for the library
 	public void lib1Menu() {
 
 		System.out.println("1) Enter Branch you manage");
 		System.out.println("2) Quit to previous");
-
-		// displaying the available branches to the user
-
-		// making selection
-
+		
+		//taking the user input
 		int choice = Integer.parseInt(scan.nextLine());
 		if (choice == 2) {
-			// qiut
+			// quit if the user decide to go back to previous menu
 			return;
 		}
-
+		
+		//when the user decide to move on, call the second menu
 		lib2Menu();
 
-		// using switch condition to take the user input
-
-		// add add copies of book to the branch
-
 	}
-
+	
+	//second menu
 	private void lib2Menu() {
+		
+		//invoking the display libraries method to show various libraries available
 		int count = displayLibraries();
-
 		int libBranch = scan.nextInt();
 		scan.nextLine();
 
 		if (libBranch == count) {
-			// quit
+			// quit or return to first menu
 			lib1Menu();
 		}
+		
+		//keeping the library info for future reference
 		saveBranchInfo(libBranch);
 
 		lib3Menu();
@@ -203,20 +209,20 @@ public class LibrarianInfo {
 			e.printStackTrace();
 		}
 	}
-
+	
+	//display the libraries available for selection
 	private int displayLibraries() {
 		System.out.println("Here are the available Library Branches");
 		System.out.println("---------------------------------------");
-
+		//counter
 		int count = 0;
+		
 		try {
-			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/library", "root", "");
 			String selectQuery = "select * from tbl_library_branch";
-
 			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
 			rs = pstmt.executeQuery();
-
+			
+			//want count to start from one to number the library
 			count = 1;
 			// loop
 			while (rs.next()) {
@@ -224,18 +230,19 @@ public class LibrarianInfo {
 						+ ", " + rs.getString("branchAddress"));
 				count++;
 			}
+			
 			System.out.println(count + ") Quit to previous");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		return count;
-
 	}
 
+	//method to save the branch information
 	private void saveBranchInfo(int libBranch) {
 		try {
+			//moving the cursor in front of the result set
 			rs.beforeFirst();
 
 			int count = 1;
@@ -261,14 +268,12 @@ public class LibrarianInfo {
 		}
 	}
 
+	//method to display the books in the library
 	private int displayBooksInLibrary() {
 		int count = 0;
 		try {
 
 			String selectQuery = "select * from tbl_book NATURAL JOIN tbl_book_copies NATURAL JOIN tbl_library_branch NATURAL JOIN tbl_book_authors NATURAL JOIN tbl_author where branchId=?";
-
-			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/library", "root", "");
 			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
 			pstmt.setInt(1, library.getBranchId());
 			rs = pstmt.executeQuery();
@@ -289,6 +294,7 @@ public class LibrarianInfo {
 		return count;
 	}
 
+	//method to save branch info
 	private void saveBookInfo(int bookChoice) {
 		try {
 			rs.beforeFirst();
