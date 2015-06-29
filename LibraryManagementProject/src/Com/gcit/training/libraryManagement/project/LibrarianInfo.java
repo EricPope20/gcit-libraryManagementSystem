@@ -53,7 +53,7 @@ public class LibrarianInfo {
 								+ "\n2)Add copies of Book to the Branch\n"
 								+ "3)Quit to previous");
 				userString = scan.nextLine();
-				
+
 				// update the details of the library
 				if (userString == "1") {
 					scan.nextLine();
@@ -88,12 +88,13 @@ public class LibrarianInfo {
 		try {
 			System.out.println("You have chosen to update the Branch "
 					+ "with Branch Id:1 and Branch Name:University Library");
-			
-			System.out.println("Please enter new branch name or enter N/A for no change");
+
+			System.out
+					.println("Please enter new branch name or enter N/A for no change");
 			userString = userScan.nextLine();
-			
-			//if the user enter a new name
-			
+
+			// if the user enter a new name
+
 			upConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/library", "root", "");
 			String updateQuery = "update tbl_library_branch branchName= ?";

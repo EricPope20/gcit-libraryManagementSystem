@@ -69,21 +69,18 @@ public class AdministratorInfo {
 		addToBook(title);
 		addToAuthor(authorName);
 
-		
 		book = new Book();
 		book.saveBookInfo();
-		
-		author=new Author();
+
+		author = new Author();
 		author.saveAuthorInfo();
-		
-		
-		
-		 addToBookAuthors();
-		
+
+		addToBookAuthors();
+
 	}
-	
-	//add to author
-	private void addToAuthor(String authorName){
+
+	// add to author
+	private void addToAuthor(String authorName) {
 		try {
 			String createQuery = "insert into tbl_author (authorName) values(?)";
 
@@ -98,9 +95,9 @@ public class AdministratorInfo {
 			e.printStackTrace();
 		}
 	}
-	
+
 	// addToBookAuthors();
-	private void addToBookAuthors(){
+	private void addToBookAuthors() {
 		try {
 			String createQuery = "insert into tbl_book_authors values(?,?,?)";
 
@@ -108,7 +105,7 @@ public class AdministratorInfo {
 			pstmt.setInt(1, book.getBookId());
 			pstmt.setInt(2, author.getAuthorId());
 			pstmt.setString(3, author.getAuthorName());
-			
+
 			pstmt.executeUpdate();
 
 			System.out.println("successfully added author");
