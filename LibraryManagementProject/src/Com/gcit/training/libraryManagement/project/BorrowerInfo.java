@@ -90,6 +90,17 @@ public class BorrowerInfo {
 				+ "\n----------------------------------");
 
 		// show the books in the chosen library
+		displayBooksInLibrary();
+
+		choice = Integer.parseInt(in.nextLine());
+		System.out.println("You have checked out sucessfully");
+		// saving in the book the user choose to check out
+		bookUpdate(choice);
+		// checkOut();
+		// TODO check if the user doesn't enter number
+	}
+
+	private void displayBooksInLibrary() {
 		try {
 
 			String selectQuery = "select * from tbl_book NATURAL JOIN tbl_book_copies NATURAL JOIN tbl_library_branch NATURAL JOIN tbl_book_authors NATURAL JOIN tbl_author where branchId=?";
@@ -111,13 +122,6 @@ public class BorrowerInfo {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		choice = Integer.parseInt(in.nextLine());
-		System.out.println("You have checked out sucessfully");
-		// saving in the book the user choose to check out
-		bookUpdate(choice);
-		// checkOut();
-		// TODO check if the user doesn't enter number
 	}
 
 	// A method save the branch the user want to check out a book from

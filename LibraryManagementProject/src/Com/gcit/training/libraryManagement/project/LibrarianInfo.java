@@ -14,20 +14,210 @@ public class LibrarianInfo {
 	// data fields
 	private static String userString = "";
 
+	Scanner scan = new Scanner(System.in);
+
+	private ResultSet rs;
+
+	private LibraryBranch library;
+	private Book book;
+
 	// constructor
 	public LibrarianInfo() {
+
+	}
+
+	public void lib1Menu() {
+
+		System.out.println("1) Enter Branch you manage");
+		System.out.println("2) Quit to previous");
+
+		// displaying the available branches to the user
+
+		// making selection
+
+		int choice = Integer.parseInt(scan.nextLine());
+		if (choice == 2) {
+			// qiut
+			return;
+		}
+
+		lib2Menu();
+
+		// using switch condition to take the user input
+
+		// add add copies of book to the branch
+
+	}
+
+	private void lib2Menu() {
+		int count = displayLibraries();
+
+		int libBranch = scan.nextInt();
+		scan.nextLine();
+
+		if (libBranch == count) {
+			// quit
+			lib1Menu();
+		}
+		saveBranchInfo(libBranch);
+
+		lib3Menu();
+	}
+
+	private void lib3Menu() {
+		System.out.println("1)Update the details of the Library"
+				+ "\n2)Add copies of Book to the Branch\n"
+				+ "3)Quit to previous");
+		userString = scan.nextLine();
+
+		if (userString.equals("1")) {
+			updateQuery();
+		} else if (userString.equals("2")) {
+			// add copies of book to the branch
+			addQuery();
+		} else {
+			lib2Menu();
+		}
+
+		// scan.nextLine();
+
+	}
+
+	private void addQuery() {
+		System.out
+				.println("Pick the Book you want to add copies of, to your branch:");
+		int countBooks = displayBooksInLibrary();
+		int bookChoice = Integer.parseInt(scan.nextLine());
+
+		if (countBooks == bookChoice) {
+			lib3Menu();
+		}
+
+		saveBookInfo(bookChoice);
+
+		int numCopies = bookCopies();
+
+		System.out.println("Existing number of copies: " + numCopies);
+
+		System.out.println("Enter new number of copies:");
+
+		int newNumCopies = Integer.parseInt(scan.nextLine());
+
+		updateBookCopies(newNumCopies);
+		
+		lib3Menu();
+
+	}
+
+	private void updateBookCopies(int newNumCopies) {
+		Connection upConn;
 		try {
-			// displaying the available branches to the user
-			System.out.println("Here are the available Library Branches");
-			System.out.println("---------------------------------------");
+			upConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/library", "root", "");
+
+			String updateQuery = "update tbl_book_copies set noOfCopies=? where bookId=?";
+
+			PreparedStatement ups = upConn.prepareStatement(updateQuery);
+			ups.setInt(1, newNumCopies);
+			ups.setInt(2, book.getBookId());
+
+			ups.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// ups.setString(1, branchName);
+		// ups.setString(2, branchAddress);
+		// ups.setInt(3, library.getBranchId());
+
+	}
+
+	// getting the number of book copies
+	private int bookCopies() {
+		int numCopies = 0;
+		try {
+
+			String selectQuery = "select * from tbl_book_copies where bookId=?";
+
+			Connection conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/library", "root", "");
+			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			pstmt.setInt(1, book.getBookId());
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				numCopies = rs.getInt("noOfCopies");
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return numCopies;
+	}
+
+	// method to update
+	private void updateQuery() {
+		Connection upConn;
+		try {
+			System.out
+					.println("You have chosen to update the Branch with Branch Id: "
+							+ library.getBranchId()
+							+ " and Branch Name: "
+							+ library.getBeranchName());
+
+			System.out
+					.println("Enter 'quit' at any prompt to cancel operation.");
+
+			System.out
+					.println("Please enter new branch name or enter N/A for no change");
+			String branchName = scan.nextLine();
+			if (branchName.equals("quit")) {
+				lib3Menu();
+			}
+
+			System.out
+					.println("Please enter new branch address or enter N/A for no change:");
+			String branchAddress = scan.nextLine();
+			if (branchAddress.equals("quit")) {
+				lib3Menu();
+			}
+
+			// executing the update
+			upConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/library", "root", "");
+			String updateQuery = "update tbl_library_branch set branchName=?, branchAddress=? where branchId=?";
+
+			PreparedStatement ups = upConn.prepareStatement(updateQuery);
+
+			ups.setString(1, branchName);
+			ups.setString(2, branchAddress);
+			ups.setInt(3, library.getBranchId());
+
+			ups.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private int displayLibraries() {
+		System.out.println("Here are the available Library Branches");
+		System.out.println("---------------------------------------");
+
+		int count = 0;
+		try {
 			Connection conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/library", "root", "");
 			String selectQuery = "select * from tbl_library_branch";
 
 			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
-			int count = 1;
+			count = 1;
 			// loop
 			while (rs.next()) {
 				System.out.println(count + ") " + rs.getString("branchName")
@@ -35,76 +225,95 @@ public class LibrarianInfo {
 				count++;
 			}
 			System.out.println(count + ") Quit to previous");
-
-			// making selection
-			Scanner scan = new Scanner(System.in);
-			System.out
-					.println("Select the Library Branch you want to update based on their number");
-			int libBranch = scan.nextInt();
-			scan.nextLine();
-
-			// using switch condition to take the user input
-			switch (libBranch) {
-			case 1:
-
-				System.out
-						.println("You selected the University Library,"
-								+ "do you want to:\n1)Update the details of the Library"
-								+ "\n2)Add copies of Book to the Branch\n"
-								+ "3)Quit to previous");
-				userString = scan.nextLine();
-
-				// update the details of the library
-				if (userString == "1") {
-					scan.nextLine();
-					updateQuery();
-				}
-				// add add copies of book to the branch
-				else if (userString.equals(2)) {
-
-				}
-
-				// return to previous page
-				else if (userString.equals(3)) {
-
-				}
-				break;
-			case 2:
-
-			default:
-				break;
-			}
-
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
+		return count;
+
 	}
 
-	// method to update
-	private static void updateQuery() {
-		Scanner userScan = new Scanner(System.in);
-		Connection upConn;
+	private void saveBranchInfo(int libBranch) {
 		try {
-			System.out.println("You have chosen to update the Branch "
-					+ "with Branch Id:1 and Branch Name:University Library");
+			rs.beforeFirst();
 
-			System.out
-					.println("Please enter new branch name or enter N/A for no change");
-			userString = userScan.nextLine();
+			int count = 1;
+			while (rs.next()) {
+				if (count == libBranch) {
+					int branchId = rs.getInt("branchId");
+					String branchName = rs.getString("branchName");
+					String branchAddress = rs.getString("branchAddress");
 
-			// if the user enter a new name
+					library = new LibraryBranch();
+					library.setBranchId(branchId);
+					library.setBeranchName(branchName);
+					library.setBranchAddress(branchAddress);
 
-			upConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/library", "root", "");
-			String updateQuery = "update tbl_library_branch branchName= ?";
-			PreparedStatement ups = upConn.prepareStatement(updateQuery);
-			ups.setString(1, userString);
-			int execute = ups.executeUpdate();
+					break;
 
+				}
+				count++;
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+
+	private int displayBooksInLibrary() {
+		int count = 0;
+		try {
+
+			String selectQuery = "select * from tbl_book NATURAL JOIN tbl_book_copies NATURAL JOIN tbl_library_branch NATURAL JOIN tbl_book_authors NATURAL JOIN tbl_author where branchId=?";
+
+			Connection conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/library", "root", "");
+			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			pstmt.setInt(1, library.getBranchId());
+			rs = pstmt.executeQuery();
+
+			count = 1;
+			// loop
+			while (rs.next()) {
+				System.out.println(count + ") " + rs.getString("title")
+						+ " by " + rs.getString("authorName"));
+				count++;
+			}
+			System.out.println("\n" + count + ") Quit to Cancel Operation");
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	private void saveBookInfo(int bookChoice) {
+		try {
+			rs.beforeFirst();
+
+			int count = 1;
+			while (rs.next()) {
+				if (count == bookChoice) {
+					int bookId = rs.getInt("bookId");
+					String title = rs.getString("title");
+					int pubId = rs.getInt("pubId");
+
+					book = new Book();
+					book.setBookId(bookId);
+					book.setTitle(title);
+					book.setPubId(pubId);
+
+					break;
+
+				}
+				count++;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }

@@ -29,8 +29,8 @@ public class LibraryBranch {
 		return branchName;
 	}
 
-	public void setBeranchName(String beranchName) {
-		this.branchName = beranchName;
+	public void setBeranchName(String branchName) {
+		this.branchName = branchName;
 	}
 
 	public String getBranchAddress() {
