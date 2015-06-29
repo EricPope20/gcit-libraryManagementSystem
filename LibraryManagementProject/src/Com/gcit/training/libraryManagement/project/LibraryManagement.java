@@ -100,7 +100,8 @@ public class LibraryManagement {
 			userString = input.nextLine();
 			// if the user decides to move on
 			while (userString.toLowerCase().equals("y")) {
-				BorrowerInfo myAD = new BorrowerInfo();
+				BorrowerInfo borr = new BorrowerInfo();
+				borr.initialCall();
 				break;
 
 			} // if the input is no

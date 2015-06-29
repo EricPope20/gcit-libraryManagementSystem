@@ -14,19 +14,35 @@ import java.util.Scanner;
 public class BorrowerInfo {
 	// data fields
 	private int cardNum;
-
+	Connection conn;
 	private int choice;
 	private Book_Loans book;
 	private LibraryBranch libraryBranch;
 
-	protected BorrowerInfo() {
-		Scanner in = new Scanner(System.in);
+	Scanner in;
 
+	protected BorrowerInfo() {
+		// connecting to the data base for universal use
+		try {
+			conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/library", "root", "");
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		in = new Scanner(System.in);
+
+	}
+
+	// the initial method to call
+	protected void initialCall() {
 		// asking user to enter their card number and validating
 		System.out.println("Enter the your Card Number:");
 
 		cardNum = Integer.parseInt(in.nextLine());
 
+		// validating
 		while (!isValid(cardNum)) {
 
 			System.out.println("The Card Number you entered is not valid");
@@ -42,10 +58,8 @@ public class BorrowerInfo {
 		if (choice == 1) {
 			System.out.println("\nPick the Branch you want to check out from: "
 					+ "\n-------------------------------------");
-			Connection conn;
+
 			try {
-				conn = DriverManager.getConnection(
-						"jdbc:mysql://localhost:3306/library", "root", "");
 
 				String selectQuery = "select * from tbl_library_branch";
 
@@ -53,7 +67,6 @@ public class BorrowerInfo {
 				ResultSet rs = pstmt.executeQuery();
 
 				int count = 1;
-
 				// loop
 				while (rs.next()) {
 					System.out.println(count + ") "
@@ -61,17 +74,14 @@ public class BorrowerInfo {
 							+ rs.getString("branchAddress"));
 					count++;
 				}
-				System.out.println(count + ") Quit to previous");
 
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			// get the user input and update the library
+			choice = Integer.parseInt(in.nextLine());
 		}
-
-		// get the unser input and update the library
-		choice = Integer.parseInt(in.nextLine());
 
 		updateLibrary(choice);
 
@@ -80,10 +90,7 @@ public class BorrowerInfo {
 				+ "\n----------------------------------");
 
 		// show the books in the chosen library
-		Connection conn;
 		try {
-			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/library", "root", "");
 
 			String selectQuery = "select * from tbl_book NATURAL JOIN tbl_book_copies NATURAL JOIN tbl_library_branch NATURAL JOIN tbl_book_authors NATURAL JOIN tbl_author where branchId=?";
 
@@ -92,15 +99,14 @@ public class BorrowerInfo {
 			ResultSet rs = pstmt.executeQuery();
 
 			int count = 1;
-
 			// loop
 			while (rs.next()) {
 				System.out.println(count + ") " + rs.getString("title")
 						+ " by " + rs.getString("authorName"));
 				count++;
 			}
-			System.out.println(count + ") Quit to Cancel Operation");
-			
+			System.out.println("\n" + count + ") Quit to Cancel Operation");
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -110,17 +116,15 @@ public class BorrowerInfo {
 		System.out.println("You have checked out sucessfully");
 		// saving in the book the user choose to check out
 		bookUpdate(choice);
-		//checkOut();
+		// checkOut();
 		// TODO check if the user doesn't enter number
 	}
 
 	// A method save the branch the user want to check out a book from
 	private void updateLibrary(int choice) {
-		Connection conn;
+
 		try {
-			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/library", "root", "");
-			
+
 			String selectQuery = "select * from tbl_library_branch";
 
 			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
@@ -140,7 +144,6 @@ public class BorrowerInfo {
 				}
 				count++;
 			}
-			System.out.println(count + ") Quit to previous");
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -151,8 +154,7 @@ public class BorrowerInfo {
 	// A method to save the book the user choose to check out
 	private void bookUpdate(int choice) {
 		try {
-			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/library", "root", "");
+
 			String selectQuery = "select * from tbl_book_loans";
 
 			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
@@ -166,8 +168,6 @@ public class BorrowerInfo {
 					int bookId = rs.getInt("bookId");
 					int branchId = rs.getInt("branchId");
 					int cardNo = rs.getInt("cardNo");
-					// String title = rs.getString("title");
-					// int pubId = rs.getInt("pubId");
 
 					book = new Book_Loans(bookId, branchId, cardNo);
 				}
@@ -179,10 +179,9 @@ public class BorrowerInfo {
 	}
 
 	private boolean isValid(int cardNo) {
-		Connection conn;
+
 		try {
-			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/library", "root", "");
+
 			String selectQuery = "select * from tbl_borrower";
 			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
 			ResultSet rs = pstmt.executeQuery();
@@ -200,30 +199,18 @@ public class BorrowerInfo {
 		return false;
 	}
 
-	// }
-
-	// method to check out book
+	// method to insert into the book loans table for checking out
 	protected void checkOut() {
-		Connection conn;
+
 		try {
-			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/library", "root", "");
-			Statement stmt = conn.createStatement();
+			String createQuery = "insert into tbl_book_loans (branchId,) values(?)";
 
-			String insertQuery = "insert into tbl_book_loans (bookId,branchId,cardNo,dateOut) values(?,?,?,?)";
-			PreparedStatement pstmt = conn.prepareStatement(insertQuery);
-			pstmt.setInt(1, book.getBookId());
-			pstmt.setInt(2, book.getBranchId());
-			pstmt.setInt(3, book.getCardNo());
-			pstmt.setDate(4, new java.sql.Date(System.currentTimeMillis()));
-			// pstmt.setDate(5, new java.sql.Date(System.currentTimeMillis()));
+			PreparedStatement pstmt = conn.prepareStatement(createQuery);
+			// pstmt.setString(1, authorName);
 
-			stmt.executeUpdate(insertQuery);
+			pstmt.executeUpdate();
 
-			/*
-			 * while (rs.next()) { System.out
-			 * .println("You check out the book "+ choice); }*
-			 */
+			System.out.println("successfully added Author");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

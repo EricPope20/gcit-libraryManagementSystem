@@ -49,7 +49,7 @@ public class LibrarianInfo {
 
 				System.out
 						.println("You selected the University Library,"
-								+ "do you want to:\n1) Update the details of the Library"
+								+ "do you want to:\n1)Update the details of the Library"
 								+ "\n2)Add copies of Book to the Branch\n"
 								+ "3)Quit to previous");
 				userString = scan.nextLine();
