@@ -21,6 +21,7 @@ public class BorrowerInfo {
 
 	Scanner in;
 
+	//constructor
 	protected BorrowerInfo() {
 		// connecting to the data base for universal use
 		try {
@@ -81,6 +82,17 @@ public class BorrowerInfo {
 			}
 			// get the user input and update the library
 			choice = Integer.parseInt(in.nextLine());
+		}
+		
+		//if its second choice
+		else if(choice == 2){
+			returnBook();
+		}
+		
+		//return previous page
+		else{
+			LibraryManagement newlibrayMan = new LibraryManagement();
+			newlibrayMan.firstPageReturn();
 		}
 
 		updateLibrary(choice);
@@ -223,6 +235,6 @@ public class BorrowerInfo {
 
 	// method to return a book
 	protected void returnBook() {
-
+		
 	}
 }

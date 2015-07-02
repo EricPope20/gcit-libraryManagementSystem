@@ -92,7 +92,7 @@ public class LibrarianInfo {
 
 	private void addQuery() {
 		System.out
-				.println("Pick the Book you want to add copies of, to your branch:");
+				.println("Pick the Book you want to add copies of to your branch:");
 		int countBooks = displayBooksInLibrary();
 		int bookChoice = Integer.parseInt(scan.nextLine());
 
@@ -101,7 +101,7 @@ public class LibrarianInfo {
 		}
 
 		saveBookInfo(bookChoice);
-
+		//variable to hold the book copies
 		int numCopies = bookCopies();
 
 		System.out.println("Existing number of copies: " + numCopies);
@@ -109,8 +109,9 @@ public class LibrarianInfo {
 		System.out.println("Enter new number of copies:");
 
 		int newNumCopies = Integer.parseInt(scan.nextLine());
-
-		updateBookCopies(newNumCopies);
+		
+		//add the new copies of the book to the existing 
+		updateBookCopies(newNumCopies + numCopies);
 		
 		lib3Menu();
 

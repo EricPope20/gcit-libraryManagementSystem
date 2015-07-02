@@ -15,6 +15,11 @@ public class LibraryManagement {
 	private static final int administrator = 2;
 	private static final int borrower = 3;
 
+	//constructor
+	public LibraryManagement() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public static void main(String[] args) {
 		firstPageReturn();
 
@@ -23,7 +28,7 @@ public class LibraryManagement {
 	static int userStatus;
 
 	// the first page to display
-	private static void firstPageReturn() {
+	protected static void firstPageReturn() {
 		String userString;
 
 		System.out.println("Welcome to the GCIT Library Management System");
