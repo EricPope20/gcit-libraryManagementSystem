@@ -5,8 +5,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gcit.lms.domain.Author;
-import com.gcit.lms.domain.Book;
+import com.gcit.domain02.Author;
+import com.gcit.domain02.Book;
 
 public class AuthorDAO extends BaseDAO<Author> {
 

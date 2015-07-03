@@ -2,8 +2,8 @@ package com.gcit.lms.service;
 
 import java.sql.Connection;
 
-import com.gcit.lms.dao.AuthorDAO;
-import com.gcit.lms.domain.Author;
+import com.gcit.dao2.AuthorDAO;
+import com.gcit.domain02.Author;
 
 public class AdministrativeService {
 

@@ -5,9 +5,9 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gcit.lms.domain.Author;
-import com.gcit.lms.domain.Book;
-import com.gcit.lms.domain.Genre;
+import com.gcit.domain02.Author;
+import com.gcit.domain02.Book;
+import com.gcit.domain02.Genre;
 
 public class BookDAO extends BaseDAO<Book>{
 

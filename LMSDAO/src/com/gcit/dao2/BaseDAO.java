@@ -9,7 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gcit.lms.domain.Author;
+import com.gcit.domain02.Author;
 
 public abstract class BaseDAO<T> {
 	
