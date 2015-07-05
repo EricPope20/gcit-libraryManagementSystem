@@ -30,9 +30,6 @@ public class BookDAO extends BaseDAO<Book>{
 			save("insert into tbl_book_genres (bookId, genre_id) values (?,?)", 
 				new Object[]{bookId, g.getGenreId()});
 		}
-		
-		save("insert into tbl_book_copies values (?,?,?)", 
-				new Object[]{bookId, book.getLibraryBranch().getBranchId(),1});
 	}
 	
 	public List<Book> readAll() throws Exception{

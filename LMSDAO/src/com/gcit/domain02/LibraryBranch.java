@@ -1,9 +1,27 @@
 package com.gcit.domain02;
 
+import java.util.List;
+
 public class LibraryBranch {
 	private int branchId;
 	private String branchName;
 	private String branchAddress;
+	
+	private List<Book>books;
+	
+	
+	/**
+	 * @return the books
+	 */
+	public List<Book> getBooks() {
+		return books;
+	}
+	/**
+	 * @param books the books to set
+	 */
+	public void setBooks(List<Book> books) {
+		this.books = books;
+	}
 	/**
 	 * @return the branchId
 	 */

@@ -8,7 +8,7 @@ import java.util.List;
 import com.gcit.domain02.Author;
 import com.gcit.domain02.Publisher;
 
-public class PublisherDAO extends BaseDAO {
+public class PublisherDAO extends BaseDAO<Publisher> {
 
 	public PublisherDAO(Connection conn) throws Exception {
 		super(conn);
@@ -26,18 +26,18 @@ public class PublisherDAO extends BaseDAO {
 
 	}
 
-	public void delete(Author author) throws Exception {
-		save("delete from tbl_author where authorId = ?",
-				new Object[] { author.getAuthorName() });
+	public void delete(Publisher publisher) throws Exception {
+		save("delete from tbl_publisher where publisherId = ?",
+				new Object[] { publisher.getPublisherId() });
 	}
 
-	public List<Author> readAll() throws Exception{
-		return (List<Author>) read("select * from tbl_author", null);
+	public List<Publisher> readAll() throws Exception{
+		return (List<Publisher>) read("select * from tbl_publisher", null);
 		
 	}
 
 	public Publisher readOne(int publisherId) throws Exception {
-		List<Publisher> publishers = (List<Publisher>) read("select * from tbl_publisher", new Object[] {publisherId});
+		List<Publisher> publishers = (List<Publisher>) read("select * from tbl_publisher where publisherId= ?", new Object[] {publisherId});
 		if(publishers!=null && publishers.size()>0){
 			return publishers.get(0);
 		}
@@ -45,23 +45,36 @@ public class PublisherDAO extends BaseDAO {
 	}
 
 	@Override
-	public List extractData(ResultSet rs) throws Exception {
-		List<Author> authors =  new ArrayList<Author>();
+	public List<Publisher> extractData(ResultSet rs) throws Exception {
+		List<Publisher> publishers =  new ArrayList<Publisher>();
 		
 		while(rs.next()){
-			Author a = new Author();
-			a.setAuthorId(rs.getInt("authorId"));
-			a.setAuthorName(rs.getString("authorName"));
+			Publisher a = new Publisher();
+			a.setPublisherId(rs.getInt("publisherId"));
+			a.setPublisherName(rs.getString("publisherName"));
+			a.setPublisherAddress(rs.getString("publisherAddress"));
+			a.setPublisherPhone(rs.getString("publisherPhone"));
 			
-			authors.add(a);
+			publishers.add(a);
 		}
-		return authors;
+		return publishers;
 	}
 
 	@Override
 	public List extractDataFirstLevel(ResultSet rs) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+List<Publisher> publishers =  new ArrayList<Publisher>();
+		
+		while(rs.next()){
+			Publisher a = new Publisher();
+			a.setPublisherId(rs.getInt("publisherId"));
+			a.setPublisherName(rs.getString("publisherName"));
+			a.setPublisherAddress(rs.getString("publisherAddress"));
+			a.setPublisherPhone(rs.getString("publisherPhone"));
+			
+			publishers.add(a);
+		}
+		return publishers;
 	}
 	
 	
