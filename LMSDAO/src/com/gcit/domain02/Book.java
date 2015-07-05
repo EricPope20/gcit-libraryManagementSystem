@@ -6,6 +6,21 @@ public class Book {
 	private int bookId;
 	private String title;
 	private Publisher publisher;
+	private LibraryBranch libraryBranch;
+	
+	/**
+	 * @return the libraryBranch
+	 */
+	public LibraryBranch getLibraryBranch() {
+		return libraryBranch;
+	}
+	
+	/**
+	 * @param libraryBranch the libraryBranch to set
+	 */
+	public void setLibraryBranch(LibraryBranch libraryBranch) {
+		this.libraryBranch = libraryBranch;
+	}
 	
 	private List<Author> authors;
 	private List<Genre> genres;

@@ -9,6 +9,7 @@ import com.gcit.domain02.Author;
 import com.gcit.domain02.Book;
 import com.gcit.domain02.Genre;
 
+
 public class BookDAO extends BaseDAO<Book>{
 
 	public BookDAO(Connection conn) throws Exception {
@@ -29,6 +30,9 @@ public class BookDAO extends BaseDAO<Book>{
 			save("insert into tbl_book_genres (bookId, genre_id) values (?,?)", 
 				new Object[]{bookId, g.getGenreId()});
 		}
+		
+		save("insert into tbl_book_copies values (?,?,?)", 
+				new Object[]{bookId, book.getLibraryBranch().getBranchId(),1});
 	}
 	
 	public List<Book> readAll() throws Exception{
@@ -41,7 +45,8 @@ public class BookDAO extends BaseDAO<Book>{
 		List<Book> books = new ArrayList<Book>();
 		PublisherDAO pdao = new PublisherDAO(getConnection());
 		AuthorDAO aDao = new AuthorDAO(getConnection());
-		//GenreDAO gD
+		GenreDAO gD = new GenreDAO(getConnection());
+		
 		while(rs.next()){
 			Book b = new Book();
 			b.setBookId(rs.getInt("bookId"));
@@ -51,6 +56,9 @@ public class BookDAO extends BaseDAO<Book>{
 			List<Author> authors = (List<Author>) aDao.readFirstLevel("select * from tbl_author where authorId In"
 					+ "(select authorId from tbl_book_authors where bookId=?)", new Object[] {rs.getInt("bookId")});
 			b.setAuthors(authors);
+			
+			List<Genre> genres = (List<Genre>) gD.readFirstLevel("select * from tbl_genre where genre_id In"
+					+ "(select genre_id from tbl_book_genres where bookId=?)", new Object[] {rs.getInt("bookId")});
 			books.add(b);
 		}
 		
