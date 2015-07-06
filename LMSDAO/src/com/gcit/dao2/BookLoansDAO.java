@@ -8,29 +8,31 @@ import java.util.List;
 import com.gcit.domain02.Book;
 import com.gcit.domain02.BookLoans;
 
-public class BookLoansDAO extends BaseDAO<BookLoans>{
+public class BookLoansDAO extends BaseDAO<BookLoans> {
 
 	public BookLoansDAO(Connection conn) throws Exception {
 		super(conn);
 		// TODO Auto-generated constructor stub
 	}
-	
-	//creating the method to insert
+
+	// creating the method to insert
 	public void create(BookLoans bookLoans) throws Exception {
 		save("insert into tbl_book_loans (bookId,branchId,cardNo) values(?,?,?)",
-				new Object[] { bookLoans.getBookId(),bookLoans.getBranchId(),bookLoans.getCardNo() });
+				new Object[] { bookLoans.getBookId(), bookLoans.getBranchId(),
+						bookLoans.getCardNo() });
 	}
 
-	//a method to update
+	// a method to update
 	public void update(BookLoans bookLoans) throws Exception {
 		save("update tbl_book_loans set bookId= ?, where cardNo = ?",
 				new Object[] { bookLoans.getBookId(), bookLoans.getCardNo() });
 	}
 
-	//to delete 
+	// to delete
 	public void delete(BookLoans bookLoans) throws Exception {
 		save("delete from tbl_book_loans where bookId = ?, branchId= ?, cardId= ?",
-				new Object[] { bookLoans.getBookId(), bookLoans.getBranchId(),bookLoans.getCardNo() });
+				new Object[] { bookLoans.getBookId(), bookLoans.getBranchId(),
+						bookLoans.getCardNo() });
 	}
 
 	public List<BookLoans> readAll() throws Exception {
@@ -38,9 +40,11 @@ public class BookLoansDAO extends BaseDAO<BookLoans>{
 
 	}
 
-	public BookLoans readOne(int bookId, int branchId, int cardId) throws Exception {
-		List<BookLoans> bookLoans = (List<BookLoans>) read("select * from tbl_book_loans",
-				new Object[] { bookId,branchId,cardId });
+	public BookLoans readOne(int bookId, int branchId, int cardId)
+			throws Exception {
+		List<BookLoans> bookLoans = (List<BookLoans>) read(
+				"select * from tbl_book_loans", new Object[] { bookId,
+						branchId, cardId });
 		if (bookLoans != null && bookLoans.size() > 0) {
 			return bookLoans.get(0);
 		}
@@ -61,11 +65,10 @@ public class BookLoansDAO extends BaseDAO<BookLoans>{
 			a.setDueDate(rs.getString("dueDate"));
 			a.setDateIn(rs.getString("dateIn"));
 			@SuppressWarnings("unchecked")
-			List<Book> books = (List<Book>) bDao
-					.readFirstLevel(
-							"select * from tbl_book_loans where bookId In"
-									+ "(select cardNo from tbl_book where cardNo= ?)",
-							new Object[] { rs.getInt("cardNo") });
+			List<Book> books = (List<Book>) bDao.readFirstLevel(
+					"select * from tbl_book_loans where bookId In"
+							+ "(select cardNo from tbl_book where cardNo= ?)",
+					new Object[] { rs.getInt("cardNo") });
 			a.setBooks(books);
 			bookLoans.add(a);
 		}
@@ -90,5 +93,5 @@ public class BookLoansDAO extends BaseDAO<BookLoans>{
 		}
 		return bookLoans;
 	}
-	
+
 }

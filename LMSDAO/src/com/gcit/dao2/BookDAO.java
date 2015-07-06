@@ -32,10 +32,21 @@ public class BookDAO extends BaseDAO<Book>{
 		}
 	}
 	
+	public void update(Book book) throws Exception {
+		save("update tbl_book set title = ? where bookId = ?",
+				new Object[] { book.getTitle(), book.getBookId() });
+	}
+	
+	public void delete(Book book) throws Exception {
+		save("delete from tbl_book where bookId = ?",
+				new Object[] { book.getBookId() });
+	}
+	
 	public List<Book> readAll() throws Exception{
 		return (List<Book>) read("select * from tbl_book", null);
 		
 	}
+	
 	
 	@Override
 	public List<Book> extractData(ResultSet rs) throws Exception {

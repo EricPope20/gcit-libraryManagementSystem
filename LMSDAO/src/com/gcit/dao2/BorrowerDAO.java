@@ -15,34 +15,34 @@ public class BorrowerDAO extends BaseDAO<Borrower> {
 		// TODO Auto-generated constructor stub
 	}
 
-	//method to insert to the borrower table 
+	// method to insert to the borrower table
 	public void create(Borrower borrower) throws Exception {
 		save("insert into tbl_borrower (cardNo) values(?)",
 				new Object[] { borrower.getCardNo() });
 	}
 
-	//a method to update the borrower table
+	// a method to update the borrower table
 	public void update(Borrower borrower) throws Exception {
-		save("update tbl_borrower set name = ? where cardNo = ?",
-				new Object[] { borrower.getName(), borrower.getCardNo() });
+		save("update tbl_borrower set name = ? where cardNo = ?", new Object[] {
+				borrower.getName(), borrower.getCardNo() });
 	}
 
-	//a method to delete from borrower
+	// a method to delete from borrower
 	public void delete(Borrower borrower) throws Exception {
 		save("delete from tbl_borrower where cardNo = ?",
 				new Object[] { borrower.getCardNo() });
 	}
 
-	//a method to read all from borrower
+	// a method to read all from borrower
 	public List<Borrower> readAll() throws Exception {
 		return (List<Borrower>) read("select * from tbl_borrower", null);
 
 	}
 
-	//reading each
+	// reading each
 	public Borrower readOne(int cardNo) throws Exception {
-		List<Borrower> borrower = (List<Borrower>) read("select * from tbl_borrower",
-				new Object[] { cardNo });
+		List<Borrower> borrower = (List<Borrower>) read(
+				"select * from tbl_borrower", new Object[] { cardNo });
 		if (borrower != null && borrower.size() > 0) {
 			return borrower.get(0);
 		}
