@@ -5,13 +5,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import com.gcit.dao2.BookCopiesDAO;
-import com.gcit.dao2.BookLoansDAO;
-import com.gcit.domain02.Book;
-import com.gcit.domain02.BookCopies;
-import com.gcit.domain02.BookLoans;
-import com.gcit.domain02.Borrower;
-import com.gcit.domain02.LibraryBranch;
+import com.gcit.lms.dao2.BookCopiesDAO;
+import com.gcit.lms.dao2.BookLoansDAO;
+import com.gcit.lms.domain02.Book;
+import com.gcit.lms.domain02.BookCopies;
+import com.gcit.lms.domain02.BookLoans;
+import com.gcit.lms.domain02.Borrower;
+import com.gcit.lms.domain02.LibraryBranch;
 
 public class BorrowerService {
 

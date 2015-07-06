@@ -2,12 +2,12 @@ package com.gcit.lms.service;
 
 import java.sql.Connection;
 
-import com.gcit.dao2.AuthorDAO;
-import com.gcit.dao2.BookDAO;
-import com.gcit.dao2.LibraryBranchDAO;
-import com.gcit.domain02.Author;
-import com.gcit.domain02.Book;
-import com.gcit.domain02.LibraryBranch;
+import com.gcit.lms.dao2.AuthorDAO;
+import com.gcit.lms.dao2.BookDAO;
+import com.gcit.lms.dao2.LibraryBranchDAO;
+import com.gcit.lms.domain02.Author;
+import com.gcit.lms.domain02.Book;
+import com.gcit.lms.domain02.LibraryBranch;
 
 public class AdministrativeService {
 

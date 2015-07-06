@@ -1,13 +1,12 @@
-package com.gcit.dao2;
+package com.gcit.lms.dao2;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gcit.domain02.LibraryBranch;
-import com.gcit.domain02.Book;
-import com.gcit.domain02.LibraryBranch;
+import com.gcit.lms.domain02.Book;
+import com.gcit.lms.domain02.LibraryBranch;
 
 public class LibraryBranchDAO extends BaseDAO<LibraryBranch>{
 

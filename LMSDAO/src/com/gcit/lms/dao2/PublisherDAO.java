@@ -1,12 +1,12 @@
-package com.gcit.dao2;
+package com.gcit.lms.dao2;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gcit.domain02.Author;
-import com.gcit.domain02.Publisher;
+import com.gcit.lms.domain02.Author;
+import com.gcit.lms.domain02.Publisher;
 
 public class PublisherDAO extends BaseDAO<Publisher> {
 

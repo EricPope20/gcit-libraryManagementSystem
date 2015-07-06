@@ -1,12 +1,12 @@
-package com.gcit.dao2;
+package com.gcit.lms.dao2;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gcit.domain02.BookCopies;
-import com.gcit.domain02.Publisher;
+import com.gcit.lms.domain02.BookCopies;
+import com.gcit.lms.domain02.Publisher;
 
 public class BookCopiesDAO extends BaseDAO<BookCopies>{
 

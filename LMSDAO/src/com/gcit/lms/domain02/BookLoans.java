@@ -1,4 +1,4 @@
-package com.gcit.domain02;
+package com.gcit.lms.domain02;
 
 import java.util.Date;
 import java.util.List;

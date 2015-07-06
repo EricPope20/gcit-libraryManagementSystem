@@ -1,4 +1,4 @@
-package com.gcit.dao2;
+package com.gcit.lms.dao2;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,7 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gcit.domain02.Author;
+import com.gcit.lms.domain02.Author;
 
 public abstract class BaseDAO<T> {
 	

@@ -1,4 +1,4 @@
-package com.gcit.domain02;
+package com.gcit.lms.domain02;
 
 import java.lang.reflect.Method;
 import java.util.List;
