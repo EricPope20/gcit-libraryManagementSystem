@@ -1,5 +1,6 @@
 package com.gcit.domain02;
 
+import java.util.Date;
 import java.util.List;
 
 public class BookLoans {
@@ -9,6 +10,15 @@ public class BookLoans {
 	private String dateOut;
 	private String dueDate;
 	private String dateIn;
+
+	public BookLoans(int bookId2, int branchId2, int cardNo2, Date today,
+			Date nextWeek, Object object) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public BookLoans() {
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @return the bookId
@@ -116,5 +126,10 @@ public class BookLoans {
 	}
 
 	private List<Book> books;
+
+	public void setDateIn(Date today) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
